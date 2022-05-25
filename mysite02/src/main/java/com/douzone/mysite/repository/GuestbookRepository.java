@@ -35,7 +35,7 @@ public class GuestbookRepository {
 			while (rs.next()) {
 				Long no = rs.getLong(1);
 				String name = rs.getString(2);
-				Date reg_date = rs.getDate(3);
+				String reg_date = rs.getString(3);
 				String message = rs.getString(4);
 
 				GuestbookVo vo = new GuestbookVo(); // result mapping

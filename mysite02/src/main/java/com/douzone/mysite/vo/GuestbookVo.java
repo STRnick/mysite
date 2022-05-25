@@ -1,13 +1,11 @@
 package com.douzone.mysite.vo;
 
-import java.util.Date;
-
 public class GuestbookVo {
 	private Long no;
 	private String name;
 	private String password;
 	private String message;
-	private Date reg_date;
+	private String reg_date;
 
 	public Long getNo() {
 		return no;
@@ -41,11 +39,11 @@ public class GuestbookVo {
 		this.message = message;
 	}
 
-	public Date getReg_date() {
+	public String getReg_date() {
 		return reg_date;
 	}
 
-	public void setReg_date(Date reg_date) {
+	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
 
