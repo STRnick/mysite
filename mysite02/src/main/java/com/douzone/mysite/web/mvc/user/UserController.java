@@ -1,18 +1,16 @@
-package com.douzone.mysite.controller;
+package com.douzone.mysite.web.mvc.user;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.douzone.mysite.web.mvc.main.MainActionFactory;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.mvc.ActionFactory;
 
-public class MainController extends HttpServlet {
+public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -22,11 +20,11 @@ public class MainController extends HttpServlet {
 //		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/main/index.jsp");
 //		rd.forward(request, response);
 		
-		ActionFactory factory = new MainActionFactory();
+		ActionFactory factory = new UserActionFactory();
 		Action action = factory.getAction(actionName);
 		action.execute(request, response);
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
