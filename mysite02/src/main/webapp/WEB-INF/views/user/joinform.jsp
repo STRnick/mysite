@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +11,7 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="user">
-
-				<form id="join-form" name="joinForm" method="post" action="/mysite02/user?a=join">
+				<form id="join-form" name="joinForm" method="post" action="<%=request.getContextPath() %>/user?a=join">
 					<label class="block-label" for="name">이름</label>
 					<input id="name" name="name" type="text" value="">
 
@@ -34,9 +33,7 @@
 						<input id="agree-prov" type="checkbox" name="agreeProv" value="y">
 						<label>서비스 약관에 동의합니다.</label>
 					</fieldset>
-					
 					<input type="submit" value="가입하기">
-					
 				</form>
 			</div>
 		</div>

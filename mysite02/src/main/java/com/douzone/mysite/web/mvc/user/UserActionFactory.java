@@ -22,6 +22,10 @@ public class UserActionFactory extends ActionFactory {
 			action = new LoginAction();
 		} else if("logout".equals(actionName)) {
 			action = new LogoutAction();
+		} else if("updateform".equals(actionName)) {
+			action = new updateFormtAction();
+		} else if("update".equals(actionName)) {
+			action = new updateAction();
 		} else {
 			action = new DefaultAction();
 		}
