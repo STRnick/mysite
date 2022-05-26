@@ -21,7 +21,9 @@ public class UserRepository {
 		try {
 			connection = getConnection();
 
-			String sql = "insert" + " into user" + " values(null, ?, ?, ?, ?, now())";
+			String sql = "insert" + 
+						 " into user" + 
+						 " values(null, ?, ?, ?, ?, now())";
 			pstmt = connection.prepareStatement(sql);
 
 			pstmt.setString(1, vo.getName());
@@ -58,7 +60,9 @@ public class UserRepository {
 		try {
 			connection = getConnection();
 
-			String sql = "select no, name, email, gender" + " from user" + " where no=?";
+			String sql = "select no, name, email, gender" + 
+						 " from user" + 
+						 " where no=?";
 			pstmt = connection.prepareStatement(sql);
 
 			pstmt.setLong(1, no.longValue());
@@ -102,7 +106,10 @@ public class UserRepository {
 		try {
 			connection = getConnection();
 
-			String sql = " select no, name" + " from user" + " where email=?" + " and password =?";
+			String sql = " select no, name" +
+						 " from user" +
+						 " where email=?" +
+						 " and password =?";
 			pstmt = connection.prepareStatement(sql);
 
 			pstmt.setString(1, vo.getEmail());
