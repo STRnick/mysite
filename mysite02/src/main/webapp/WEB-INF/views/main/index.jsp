@@ -1,4 +1,9 @@
+<%@page import="com.douzone.mysite.vo.UserVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%
+	UserVo vo = new UserVo();
+	pageContext.setAttribute("userVo", new UserVo());
+%>
 <!DOCTYPE html>
 <html>
 <head>

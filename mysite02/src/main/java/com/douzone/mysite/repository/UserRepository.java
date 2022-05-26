@@ -73,8 +73,8 @@ public class UserRepository {
 				String name = rs.getString(2);
 
 				result = new UserVo();
-				vo.setNo(no);
-				vo.setName(name);
+				result.setNo(no);
+				result.setName(name);
 			}
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
