@@ -22,7 +22,7 @@
     <description></description>
     <display-name>UserController</display-name>
     <servlet-name>UserController</servlet-name>
-    <servlet-class>com.douzone.mysite.web.mvc.user.UserController</servlet-class>
+    <servlet-class>com.douzone.mysite.controller.UserController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserController</servlet-name>
