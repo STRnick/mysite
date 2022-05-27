@@ -37,28 +37,23 @@
 					</table>
 				</form>
 				<ul>
-					<li>
-						<%
-						int i;
-						int count = list.size();
-						for (GuestbookVo vo : list) {
-						%>
-						<table>
-							<tr>
-								<td><%=count--%></td>
-								<td><%=vo.getName()%></td>
-								<td><%=vo.getReg_date()%></td>
-								<td>
-								<a href="${pageContext.request.contextPath }/guestbook?a=deleteform&no=<%=vo.getNo()%>">삭제</a>
-								</td>
-							</tr>
-							<tr>
+					<li>					
+						<c:set var='count' value='${fn:length(list) }' />
+						<c:forEach items='${list }' var='vo' varStatus='status'>
+							<table>
+								<tr>
+									<td>${count-status.index }</td>
+									<td>${vo.name }</td>
+									<td>${vo.reg_date }</td>
+									<td>
+									<a href="${pageContext.request.contextPath }/guestbook?a=deleteform&no=${vo.no }">삭제</a>
+									</td>
+								</tr>
+								<tr>
 								<td colspan=4>${fn:replace(vo.message, newLine, "<br/>")}</td>
-							</tr>
-						</table> <br> 
-						<%
- 						}
- 						%>
+								</tr>
+							</table> <br> 
+						</c:forEach>
 					</li>
 				</ul>
 			</div>
