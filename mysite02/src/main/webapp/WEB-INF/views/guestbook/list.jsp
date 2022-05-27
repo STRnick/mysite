@@ -1,26 +1,29 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@page import="java.util.List"%>
 <%@page import="com.douzone.mysite.vo.GuestbookVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-int i;
-List<GuestbookVo> list = (List<GuestbookVo>) request.getAttribute("list");
-int count = list.size();
+	int i;
+	List<GuestbookVo> list = (List<GuestbookVo>) request.getAttribute("list");
+	int count = list.size();
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="<%=request.getContextPath()%>/assets/css/guestbook.css"
+<link href="${pageContext.request.contextPath }/assets/css/guestbook.css"
 	rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
+		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook">
-				<form action="<%=request.getContextPath()%>/guestbook?a=add"
+				<form action="${pageContext.request.contextPath }/guestbook?a=add"
 					method="post">
 					<input type="hidden" name="a" value="insert">
 					<table>
@@ -49,7 +52,7 @@ int count = list.size();
 								<td><%=vo.getName()%></td>
 								<td><%=vo.getReg_date()%></td>
 								<td>
-								<a href="<%=request.getContextPath()%>/guestbook?a=deleteform&no=<%=vo.getNo()%>">삭제</a>
+								<a href="${pageContext.request.contextPath }/guestbook?a=deleteform&no=<%=vo.getNo()%>">삭제</a>
 								</td>
 							</tr>
 							<tr>
@@ -63,8 +66,8 @@ int count = list.size();
 				</ul>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/includes/navigation.jsp" />
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp" />
+		<c:import url="/WEB-INF/views/includes/navigation.jsp" />
+		<c:import url="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 </body>
 </html>
