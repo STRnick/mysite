@@ -163,7 +163,8 @@ public class BoardRepository {
 		try {
 			connection = getConnection();
 
-			String sql = "delete from board" + " where no=?";
+			String sql = "delete from board" + 
+						 " where no=?";
 
 			pstmt = connection.prepareStatement(sql);
 
@@ -198,7 +199,10 @@ public class BoardRepository {
 		try {
 			conn = getConnection();
 
-			String sql = "update board" + " set title=?," + " contents=?" + " where no=?";
+			String sql = "update board" + 
+						 " set title=?," + 
+						 " contents=?" + 
+						 " where no=?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, vo.getTitle());
@@ -235,7 +239,8 @@ public class BoardRepository {
 			connection = getConnection();
 			
 			String sql =
-				" SELECT count(*) FROM board";
+				" select count(*)" + 
+				" from board";
 			pstmt = connection.prepareStatement(sql);
 						
 			rs = pstmt.executeQuery();
@@ -275,7 +280,7 @@ public class BoardRepository {
 			
 			connection = getConnection();
 			
-			String sql = "INSERT INTO  "
+			String sql = "insert into"
 					+ " board (title, contents, hit, reg_date, g_no, o_no, depth, user_no) "
 					+ " select ?, ?, 0, now(), ifnull(MAX(g_no) + 1, 1) , 1, 0, ? "
 					+ " from board";
@@ -317,7 +322,7 @@ public class BoardRepository {
 			
 			connection = getConnection();
 			if(o_no == 1) {
-				String sql = "INSERT INTO  "
+				String sql = "insert into"
 						+ " board (title, contents, hit, reg_date, g_no, o_no, depth, user_no) "
 						+ " select  ?, ?, 0, now(), ? , MAX(o_no)+1, ?, ? "
 						+ " from board where g_no = ?";
@@ -332,7 +337,7 @@ public class BoardRepository {
 				
 			}
 			else {
-				String sql = "INSERT INTO  "
+				String sql = "insert into"
 						+ " board (title, contents, hit, reg_date, g_no, o_no, depth, user_no) "
 						+ " select  ?, ?, 0, now(), ? , ?, ?, ? "
 						+ " from board where no = ?";
