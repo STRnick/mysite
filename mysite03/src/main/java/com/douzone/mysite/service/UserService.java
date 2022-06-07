@@ -23,4 +23,9 @@ public class UserService {
 		return userRepository.findByNo(no);
 	}
 
+	public boolean updateUser(UserVo vo) {
+		return userRepository.update(vo);
+		
+	}
+
 }
