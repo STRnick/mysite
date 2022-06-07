@@ -44,7 +44,7 @@
 									<td>${vo.name }</td>
 									<td>${vo.reg_date }</td>
 									<td>
-									<a href="${pageContext.request.contextPath }/guestbook?a=deleteform&no=${vo.no }">삭제</a>
+									<a href="${pageContext.request.contextPath }/guestbook/delete/${vo.no }">삭제</a>
 									</td>
 								</tr>
 								<tr>
