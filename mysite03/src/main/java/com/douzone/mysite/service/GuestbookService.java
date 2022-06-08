@@ -12,12 +12,8 @@ public class GuestbookService {
 	@Autowired
 	private GuestbookRepository guestbookRepository;
 	
-	public boolean deleteMessage(Long no, String password) {
-		GuestbookVo vo = new GuestbookVo();
-		vo.setNo(no);
-		vo.setPassword(password);
-		
-		return guestbookRepository.delete(vo);
+	public boolean deleteMessage(Long no, String password) {		
+		return guestbookRepository.delete(no, password);
 	}
 	
 	public Boolean addMessage(GuestbookVo vo) {
