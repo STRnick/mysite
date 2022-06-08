@@ -76,7 +76,7 @@ public class GuestbookRepository {
 		try {
 			connection = getConnection();
 
-			String sql = "inser into guestbook" +
+			String sql = "insert into guestbook" +
 						 " values(null, ?, ?, ?, now())";
 			pstmt = connection.prepareStatement(sql);
 

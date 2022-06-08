@@ -22,8 +22,7 @@
 
 	<!-- 어노테이션 설졍: 자동(auto) 빈(Bean) 스캐닝(scanning) -->
 	<context:annotation-config />
-	<context:component-scan
-		base-package="com.douzone.mysite.controller" />
+	<context:component-scan	base-package="com.douzone.mysite.controller, com.douzone.mysite.exception" />
 
 	<!-- ViewResolver 설정 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
