@@ -1,20 +1,21 @@
 package com.douzone.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.douzone.mysite.vo.GuestbookVo;
 import com.douzone.mysite.vo.UserVo;
 
 @Repository
 public class UserRepository {
+	@Autowired
+	private DataSource dataSource;
 
 	public boolean insert(UserVo vo) {
 		boolean result = false;
@@ -22,7 +23,7 @@ public class UserRepository {
 		PreparedStatement pstmt = null;
 
 		try {
-			connection = getConnection();
+			connection = dataSource.getConnection();
 
 			String sql = "insert" + 
 						 " into user" + 
@@ -61,7 +62,7 @@ public class UserRepository {
 		ResultSet rs = null;
 
 		try {
-			connection = getConnection();
+			connection = dataSource.getConnection();
 
 			String sql = "select no, name, email, gender" + 
 						 " from user" + 
@@ -107,7 +108,7 @@ public class UserRepository {
 		ResultSet rs = null;
 
 		try {
-			connection = getConnection();
+			connection = dataSource.getConnection();
 
 			String sql = " select no, name" +
 						 " from user" +
@@ -146,17 +147,17 @@ public class UserRepository {
 
 	public boolean update(UserVo vo) {
 		boolean result = false;
-		Connection conn = null;
+		Connection connection = null;
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			connection = dataSource.getConnection();
 
 			if ("".equals(vo.getPassword())) {
 				String sql = "update user" + 
 							 " set name=?, gender=?" +
 							 " where no=?";
-				pstmt = conn.prepareStatement(sql);
+				pstmt = connection.prepareStatement(sql);
 
 				pstmt.setString(1, vo.getName());
 				pstmt.setString(2, vo.getGender());
@@ -165,7 +166,7 @@ public class UserRepository {
 				String sql = "update user" + 
 							 " set name=?, gender=?, password=?" + 
 							 " where no=?";
-				pstmt = conn.prepareStatement(sql);
+				pstmt = connection.prepareStatement(sql);
 
 				pstmt.setString(1, vo.getName());
 				pstmt.setString(2, vo.getGender());
@@ -182,8 +183,8 @@ public class UserRepository {
 				if (pstmt != null) {
 					pstmt.close();
 				}
-				if (conn != null) {
-					conn.close();
+				if (connection != null) {
+					connection.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -191,17 +192,5 @@ public class UserRepository {
 		}
 
 		return result;
-	}
-
-	private Connection getConnection() throws SQLException {
-		Connection connection = null;
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mysql://192.168.10.37:3306/webdb?charset=utf8";
-			connection = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		}
-		return connection;
 	}
 }
