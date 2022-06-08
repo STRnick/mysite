@@ -20,4 +20,3 @@ from user
 where no=2;
  
  
- 
