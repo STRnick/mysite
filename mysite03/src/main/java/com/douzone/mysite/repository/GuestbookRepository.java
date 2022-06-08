@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.douzone.mysite.exception.GuestbookRepositoryException;
 import com.douzone.mysite.vo.GuestbookVo;
 
 @Repository
@@ -25,23 +26,20 @@ public class GuestbookRepository {
 		try {
 			connection = getConnection();
 
-			// 3. SQL 준비
-			String sql = "select no, name, date_format(reg_date, '%Y-%m-%d %H:%h:%s') as reg_date, message" + " from guestbook" + " order by no desc";
+			String sql = "select no, name, date_format(reg_date, '%Y-%m-%d %H:%h:%s') as reg_date, message" + 
+						 " from guestbook" + 
+						 " order by no desc";
 			pstmt = connection.prepareStatement(sql);
 
-			// 3. SQL 실행
 			rs = pstmt.executeQuery();
 
-			// 4. Parameter Manpping
-
-			// 5. 결과처리
 			while (rs.next()) {
 				Long no = rs.getLong(1);
 				String name = rs.getString(2);
 				String reg_date = rs.getString(3);
 				String message = rs.getString(4);
 
-				GuestbookVo vo = new GuestbookVo(); // result mapping
+				GuestbookVo vo = new GuestbookVo();
 				vo.setNo(no);
 				vo.setName(name);
 				vo.setReg_date(reg_date);
@@ -78,7 +76,8 @@ public class GuestbookRepository {
 		try {
 			connection = getConnection();
 
-			String sql = "insert into guestbook values(null, ?, ?, ?, now())";
+			String sql = "inser into guestbook" +
+						 " values(null, ?, ?, ?, now())";
 			pstmt = connection.prepareStatement(sql);
 
 			pstmt.setString(1, vo.getName());
@@ -88,7 +87,8 @@ public class GuestbookRepository {
 			int count = pstmt.executeUpdate();
 			result = count == 1;
 		} catch (SQLException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
+//			System.out.println("드라이버 로딩 실패:" + e);
+			throw new GuestbookRepositoryException(e.toString());
 		} finally {
 			try {
 				if (pstmt != null) {
