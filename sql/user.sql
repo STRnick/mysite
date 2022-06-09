@@ -19,4 +19,3 @@ select no, name, email, gender
 from user
 where no=2;
  
- 
