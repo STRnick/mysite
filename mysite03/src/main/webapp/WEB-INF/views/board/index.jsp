@@ -17,8 +17,8 @@
 			<div id="board">
 				<form id="search_form"
 					action='${pageContext.request.contextPath }/board' method="get">
-					<input type="text" id="kwd" name="kwd" value=''> <input
-						type="submit" value="찾기">
+					<input type="text" id="kwd" name="kwd" value=''>
+					<input type="submit" value="찾기">
 				</form>
 
 				<table class="tbl-ex">
@@ -36,22 +36,18 @@
 						<tr>
 							<td>${count-status.index }</td>
 							<c:if test="${vo.o_no eq 1 }">
-								<td style="text-align: left; padding-left: 0px"><a
-									href="${pageContext.request.contextPath }/board?p=${param.p }&a=view&no=${vo.no }">${vo.title }</a>
+								<td style="text-align: left; padding-left: 0px">
+									<a href="${pageContext.request.contextPath }/board?p=${param.p }&a=view&no=${vo.no }">${vo.title }</a>
 								</td>
 							</c:if>
 							<c:if test="${vo.o_no > 1  && vo.depth eq 1}">
-								<td style="text-align: left; padding-left: 10px"><img
-									src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
-									<a
-									href="${pageContext.request.contextPath }/board?p=${param.p }&a=view&no=${vo.no }">${vo.title }</a>
+								<td style="text-align: left; padding-left: 10px"><img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
+									<a href="${pageContext.request.contextPath }/board?p=${param.p }&a=view&no=${vo.no }">${vo.title }</a>
 								</td>
 							</c:if>
 							<c:if test='${vo.depth > 1 }'>
-								<td style="text-align: left; padding-left: 20px"><img
-									src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
-									<a
-									href="${pageContext.request.contextPath }/board?p=${param.p }&a=view&no=${vo.no }">${vo.title }</a>
+								<td style="text-align: left; padding-left: 20px"><img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
+									<a href="${pageContext.request.contextPath }/board?p=${param.p }&a=view&no=${vo.no }">${vo.title }</a>
 								</td>
 							</c:if>
 							<td>${vo.user_name }</td>
@@ -70,22 +66,27 @@
 				<div class="pager">
 					<ul>
 						<c:if test="${pages.currentPage != 1 }">
-							<li><a
-								href="${pageContext.servletContext.contextPath }/board?p=${pages.prevPage }">◀</a></li>
+							<li>
+							<a href="${pageContext.servletContext.contextPath }/board?p=${pages.prevPage }">◀</a>
+							</li>
 						</c:if>
 						<c:forEach var='page' begin='${pages.startPage }' end='${pages.lastPage }'>
 							<c:if test="${page == pages.currentPage }">
 								<li class="selected">${page }</li>
 							</c:if>
 							<c:if test="${page <= pages.totalPage && page ne pages.currentPage }">
-								<li><a href="${pageContext.servletContext.contextPath }/board?p=${page }">${page }</a></li>
+								<li>
+								<a href="${pageContext.servletContext.contextPath }/board?p=${page }">${page }</a>
+								</li>
 							</c:if>
 							<c:if test="${page > pages.totalPage && pages.totalPage < pages.lastPage }">
 								${page }
 							</c:if>
 						</c:forEach>
 							<c:if test="${pages.currentPage < pages.totalPage }">
-								<li><a href="${pageContext.servletContext.contextPath }/board?p=${pages.nextPage }">▶</a></li>
+								<li>
+								<a href="${pageContext.servletContext.contextPath }/board?p=${pages.nextPage }">▶</a>
+								</li>
 							</c:if>
 					</ul>
 				</div>
