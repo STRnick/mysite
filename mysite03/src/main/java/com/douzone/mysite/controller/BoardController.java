@@ -1,67 +1,120 @@
 package com.douzone.mysite.controller;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.douzone.mysite.repository.BoardRepository;
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
+import com.douzone.mysite.vo.UserVo;
+import com.douzone.mysite.web.WebUtil;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-	
 	@Autowired
 	private BoardService boardService;
-	
+
 	@RequestMapping("")
-	public String index(Model model, HttpServletRequest request) {
-		
-		String pageNum = request.getParameter("p");
-		String kwd = request.getParameter("kwd");
-		
-		if(pageNum == null) {
-			pageNum = "1";
-		}
-		int limit = 5;
-		
-		HashMap<String, Integer> pages = new HashMap<String, Integer>();
-		int currentPage = Integer.parseInt(pageNum);
-		
-		int startPage = limit * ((int)Math.ceil((double)currentPage / limit)-1)+1;
-		if(startPage < 1) {
-			startPage = 1;
-		}
-		
-		int totalPage = (new BoardRepository().countBoard() % limit) == 0 ? new BoardRepository().countBoard()/limit : new BoardRepository().countBoard()/limit+1;
-		int lastPage = startPage + (limit - 1) > totalPage ? totalPage : startPage + (limit-1);
-		int prevPage = currentPage - 1 < 0 ? 1 : currentPage - 1;
-		int nextPage = currentPage + 1 > totalPage ? totalPage : currentPage + 1;
-		
-		pages.put("currentPage", currentPage);	
-		pages.put("startPage", startPage);		
-		pages.put("totalPage", totalPage);		
-		pages.put("lastPage", lastPage);		
-		pages.put("prevPage", prevPage);		
-		pages.put("nextPage", nextPage);		
-		
-		int totalBoard = new BoardRepository().countBoard();	
-		request.setAttribute("totalBoard", totalBoard);
-		
-		List<BoardVo> list = boardService.getMessageList(currentPage, kwd);
-		model.addAttribute("list", list);
-		model.addAttribute("pages", pages);
-		
-//		request.setAttribute("list", list);
-//		request.setAttribute("pages", pages);
-		
+	public String index(@RequestParam(value="p", required=true, defaultValue="1") Integer page, @RequestParam(value = "kwd", required = true, defaultValue = "") String keyword, Model model) {
+		Map<String, Object> map = boardService.getContentsList(page, keyword);
+		model.addAttribute("map", map);
 		return "board/index";
+	}
+
+	@RequestMapping("/view/{no}")
+	public String view(@PathVariable("no") Long no, Model model) {
+		BoardVo boardVo = boardService.getContents(no);
+		model.addAttribute("boardVo", boardVo);
+		return "board/view";
+	}
+
+	@RequestMapping("/delete/{no}")
+	public String delete(HttpSession session, @PathVariable("no") Long boardNo, @RequestParam(value = "p", required = true, defaultValue = "1") Integer page, @RequestParam(value = "kwd", required = true, defaultValue = "") String keyword) {
+		// 접근 제어(Access Control)
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/board";
+		}
+		////////////////////////////////////////		
+		boardService.deleteContents(boardNo, authUser.getNo());
+		return "redirect:/board?p=" + page + "&kwd=" + WebUtil.encodeURL(keyword, "UTF-8");
+	}
+
+	@RequestMapping(value = "/modify/{no}")
+	public String modify(HttpSession session, @PathVariable("no") Long no, Model model) {
+		// 접근 제어(Access Control)
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/board";
+		}
+		////////////////////////////////////////	
+		BoardVo boardVo = boardService.getContents(no, authUser.getNo());
+		model.addAttribute("boardVo", boardVo);
+		return "board/modify";
+	}
+
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	public String modify(HttpSession session, BoardVo boardVo, @RequestParam(value = "p", required = true, defaultValue = "1") Integer page, @RequestParam(value = "kwd", required = true, defaultValue = "") String keyword) {
+		// 접근 제어(Access Control)
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/board";
+		}
+		////////////////////////////////////////
+		
+		boardVo.setUser_no(authUser.getNo());
+		boardService.modifyContents(boardVo);
+		return "redirect:/board/view/" + boardVo.getNo() + "?p=" + page + "&kwd=" + WebUtil.encodeURL(keyword, "UTF-8");
+	}
+
+	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	public String write(HttpSession session) {
+		// 접근 제어(Access Control)
+		if(session.getAttribute("authUser") == null) {
+			return "redirect:/board";
+		}
+		////////////////////////////////////////
+		
+		return "board/write";
+	}
+
+	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	public String write(HttpSession session, BoardVo boardVo, @RequestParam(value = "p", required = true, defaultValue = "1") Integer page, @RequestParam(value = "kwd", required = true, defaultValue = "") String keyword) {
+		// 접근 제어(Access Control)
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/board";
+		}
+		////////////////////////////////////////		
+		
+		boardVo.setUser_no(authUser.getNo());
+		boardService.addContents(boardVo);
+		return "redirect:/board?p=" + page + "&kwd=" + WebUtil.encodeURL(keyword, "UTF-8");
+	}
+
+	@RequestMapping(value = "/reply/{no}")
+	public String reply(HttpSession session, @PathVariable("no") Long no, Model model) {
+		// 접근 제어(Access Control)
+		if(session.getAttribute("authUser") == null) {
+			return "redirect:/board";
+		}
+		////////////////////////////////////////
+		
+		BoardVo boardVo = boardService.getContents(no);
+		boardVo.setO_no(boardVo.getO_no() + 1);
+		boardVo.setDepth(boardVo.getDepth() + 1);
+
+		model.addAttribute("boardVo", boardVo);
+
+		return "board/reply";
 	}
 }

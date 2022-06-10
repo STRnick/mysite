@@ -1,0 +1,30 @@
+package com.douzone.mysite.web;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class WebUtil {
+
+	public static void forward(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/views/" + path + ".jsp").forward(request, response);
+	}
+
+	public static void redirect(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
+		response.sendRedirect(url);
+	}
+
+	public static String encodeURL(String url, String encode) {
+		String urlEncode = null;
+		try {
+			urlEncode = URLEncoder.encode(url, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+		return urlEncode;
+	}
+}
