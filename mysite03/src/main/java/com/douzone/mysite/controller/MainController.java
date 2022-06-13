@@ -16,6 +16,7 @@ public class MainController {
 	
 	@RequestMapping({"/", "/main"})
 	public String index(Model model) {
+		// 나중에 두개 인터셉트에서 처리해야함
 		SiteVo vo = siteService.getSite();
 		model.addAttribute("site", vo);
 		
