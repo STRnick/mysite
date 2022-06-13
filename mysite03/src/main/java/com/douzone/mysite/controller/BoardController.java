@@ -27,6 +27,8 @@ public class BoardController {
 	public String index(@RequestParam(value="p", required=true, defaultValue="1") Integer page, @RequestParam(value = "kwd", required = true, defaultValue = "") String keyword, Model model) {
 		Map<String, Object> map = boardService.getContentsList(page, keyword);
 		model.addAttribute("map", map);
+//		model.addAllAttributes(map);
+		
 		return "board/index";
 	}
 
@@ -39,24 +41,24 @@ public class BoardController {
 
 	@RequestMapping("/delete/{no}")
 	public String delete(HttpSession session, @PathVariable("no") Long boardNo, @RequestParam(value = "p", required = true, defaultValue = "1") Integer page, @RequestParam(value = "kwd", required = true, defaultValue = "") String keyword) {
-		// 접근 제어(Access Control)
+
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/board";
 		}
-		////////////////////////////////////////		
+		
 		boardService.deleteContents(boardNo, authUser.getNo());
 		return "redirect:/board?p=" + page + "&kwd=" + WebUtil.encodeURL(keyword, "UTF-8");
 	}
 
 	@RequestMapping(value = "/modify/{no}")
 	public String modify(HttpSession session, @PathVariable("no") Long no, Model model) {
-		// 접근 제어(Access Control)
+
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/board";
 		}
-		////////////////////////////////////////	
+	
 		BoardVo boardVo = boardService.getContents(no, authUser.getNo());
 		model.addAttribute("boardVo", boardVo);
 		return "board/modify";
@@ -64,12 +66,11 @@ public class BoardController {
 
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String modify(HttpSession session, BoardVo boardVo, @RequestParam(value = "p", required = true, defaultValue = "1") Integer page, @RequestParam(value = "kwd", required = true, defaultValue = "") String keyword) {
-		// 접근 제어(Access Control)
+
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/board";
 		}
-		////////////////////////////////////////
 		
 		boardVo.setUser_no(authUser.getNo());
 		boardService.modifyContents(boardVo);
@@ -78,23 +79,21 @@ public class BoardController {
 
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String write(HttpSession session) {
-		// 접근 제어(Access Control)
+
 		if(session.getAttribute("authUser") == null) {
 			return "redirect:/board";
 		}
-		////////////////////////////////////////
 		
 		return "board/write";
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String write(HttpSession session, BoardVo boardVo, @RequestParam(value = "p", required = true, defaultValue = "1") Integer page, @RequestParam(value = "kwd", required = true, defaultValue = "") String keyword) {
-		// 접근 제어(Access Control)
+
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/board";
 		}
-		////////////////////////////////////////		
 		
 		boardVo.setUser_no(authUser.getNo());
 		boardService.addContents(boardVo);
@@ -103,11 +102,10 @@ public class BoardController {
 
 	@RequestMapping(value = "/reply/{no}")
 	public String reply(HttpSession session, @PathVariable("no") Long no, Model model) {
-		// 접근 제어(Access Control)
+
 		if(session.getAttribute("authUser") == null) {
 			return "redirect:/board";
 		}
-		////////////////////////////////////////
 		
 		BoardVo boardVo = boardService.getContents(no);
 		boardVo.setO_no(boardVo.getO_no() + 1);
