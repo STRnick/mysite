@@ -11,7 +11,7 @@
 	</select>
 	<update id="update" parameterType="sitevo">
 		<choose>
-			<when test='profile_URL != null'>
+			<when test='profileURL != null'>
 				<![CDATA[	
 				update site
 				   set title = #{title },
