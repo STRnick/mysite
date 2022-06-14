@@ -28,6 +28,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		
 		// 4. Handler Method에 @Auth가 없으면 Type에 붙어 있는지 확인
 		if(auth == null) {
+			/* 과제 */
 			auth = handlerMethod.getBeanType().getAnnotation(Auth.class);
 		}
 		
@@ -50,6 +51,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		String role = auth.role();
 		String authUserRole = authUser.getRole();
 		
+		/* 과제 */
 		if(role.equals("ADMIN") && authUserRole.equals("USER")) {
 			response.sendRedirect(request.getContextPath());
 			return false;

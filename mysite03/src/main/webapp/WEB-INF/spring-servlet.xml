@@ -43,6 +43,10 @@
 			<mvc:exclude-mapping path="/user/logout" />
 			<bean class="com.douzone.mysite.security.AuthInterceptor"></bean>
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.douzone.mysite.interceptor.SiteInterceptor"></bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->

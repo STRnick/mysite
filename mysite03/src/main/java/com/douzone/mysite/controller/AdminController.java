@@ -5,6 +5,7 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,13 +33,15 @@ public class AdminController {
 		return "admin/main";
 	}
 
-	@RequestMapping("/main/update")
-	public String update(SiteVo vo, @RequestParam("file") MultipartFile multipartFile) {
+	@RequestMapping(value = "/main/update", method = RequestMethod.POST )
+	public String update(SiteVo siteVo, @RequestParam("file") MultipartFile multipartFile) {
 		String url = fileUploadService.restore(multipartFile);
-		vo.setProfileURL(url);
-		servletContext.setAttribute("site", vo);
+		siteVo.setProfileURL(url);
+		
+		siteService.updateSite(siteVo);
+		servletContext.setAttribute("site", siteVo);
 
-		return "redirect:/admin/main";
+		return "redirect:/admin";
 	}
 
 	@RequestMapping("/guestbook")
