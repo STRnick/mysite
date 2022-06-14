@@ -36,9 +36,13 @@ public class AdminController {
 	public String update(SiteVo vo, @RequestParam("file") MultipartFile multipartFile) {
 		
 		String url = fileUploadService.restore(multipartFile);
-		vo.setProfileURL(url);
+
+		if(url != null) {
+			vo.setProfileURL(url);
+		}
 		
-		// siteService.updateSite(vo);
+		servletContext.setAttribute("vo", vo);
+		
 		return "redirect:/admin/main";
 	}
 
