@@ -55,7 +55,7 @@
 		<div id="content">
 			<div id="gallery">
 				<div>
-					<h1>갤러리</h1>
+					<h1 style="background: url('${pageContext.request.contextPath }/assets/images/gallery.png') no-repeat 0 0 / 35px">갤러리</h1>
 					<!-- ADMIN Auth -->
 					<c:choose>
 						<c:when test='${authUser.role eq "ADMIN"}'>
