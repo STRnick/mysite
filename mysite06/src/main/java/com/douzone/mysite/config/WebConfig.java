@@ -2,15 +2,11 @@ package com.douzone.mysite.config;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.douzone.mysite.interceptor.SiteInterceptor;
@@ -20,12 +16,7 @@ import com.douzone.mysite.security.LoginInterceptor;
 import com.douzone.mysite.security.LogoutInterceptor;
 
 @SpringBootConfiguration
-@PropertySource("classpath:config/WebConfig.properties")
 public class WebConfig implements WebMvcConfigurer {
-
-	@Autowired
-	private Environment env;
-
 	// Site Interceptor
 	@Bean
 	public HandlerInterceptor handlerInterceptor() {
@@ -55,11 +46,6 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 
 	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(handlerMethodArgumentResolver());
-	}
-
-	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
 		// Site Interceptor
@@ -79,13 +65,9 @@ public class WebConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/user/auth")
 				.excludePathPatterns("/user/logout");
 	}
-
+	
 	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler(env.getProperty("fileupload.resourceMapping"))
-				.addResourceLocations("file:" + env.getProperty("fileupload.uploadLocation"));
-
-		registry.addResourceHandler("/assets/**")
-				.addResourceLocations("classpath:/statics/");
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		resolvers.add(handlerMethodArgumentResolver());
 	}
 }

@@ -1,3 +1,41 @@
+# active spring boot profile
+spring:
+   profiles:
+      active: production
+
+
+---
+spring:
+   config:
+      activate:
+         on-profile: development
+   # datasource
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mysql://192.168.10.7:3306/webdb?charset=utf8
+      username: webdb
+      password: webdb
+      hikari:
+         minimum-idle: 10
+         maximum-pool-size: 20
+
+---
+spring:
+   config:
+      activate:
+         on-profile: production
+   # datasource
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mysql://192.168.10.37:3306/webdb?charset=utf8
+      username: webdb
+      password: webdb
+      hikari:
+         minimum-idle: 10
+         maximum-pool-size: 20
+
+---
+
 # spring common configuration
 spring:
    # devtools - live reload
@@ -6,9 +44,14 @@ spring:
          enabled: true
    # mvc
    mvc:
+      static-path-pattern: /assets/**
+      throw-exception-if-no-handler-found: true
       view:
          prefix: /WEB-INF/views/
          suffix: .jsp
+   web:
+      resources:
+         static-locations: classpath:/statics/, file:/mysite-uploads/
    # message resource(Internationalization, i18n)
    messages:
       always-message-format: true
@@ -24,15 +67,6 @@ spring:
    aop:
       auto: true
       proxy-target-class: true
-   # datasource
-   datasource:
-      driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mysql://192.168.10.37:3306/webdb?charset=utf8
-      username: webdb
-      password: webdb
-      hikari:
-         minimum-idle: 10
-         maximum-pool-size: 20
          
 # mybatis configuration
 mybatis:
