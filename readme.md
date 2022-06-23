@@ -22,7 +22,11 @@
 3.	war 패키징(Tomcat 배포)
 
 ### mysite06
-1.	Spring Boot, Spring MVC
+1. Spring Boot, Spring MVC
+2. auto configuration + 미세설정[application.properties(application.yml)]
+3. war 패키징(war in Tomcat on Premise 배포)
+
+### mysite07
+1.	Spring Boot, Spring MVC(Restful API, Backend), react(JS, Frontend)
 2.	auto configuration + 미세설정[application.properties(application.yml)]
-3.	jar 패키징(Tomcat embeded)
-4.	[optional] war 패키징(Tomcat 배포)
+3.	jar 패키징(Jar 배포)
