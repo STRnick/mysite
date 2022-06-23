@@ -63,15 +63,21 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 
 		// Site Interceptor
-		registry.addInterceptor(handlerInterceptor()).addPathPatterns("/**");
+		registry.addInterceptor(handlerInterceptor())
+				.addPathPatterns("/**");
 
 		// Security Interceptors
-		registry.addInterceptor(loginInterceptor()).addPathPatterns("/user/auth");
+		registry.addInterceptor(loginInterceptor())
+				.addPathPatterns("/user/auth");
 
-		registry.addInterceptor(logoutInterceptor()).addPathPatterns("/user/logout");
+		registry.addInterceptor(logoutInterceptor())
+				.addPathPatterns("/user/logout");
 
-		registry.addInterceptor(authInterceptor()).addPathPatterns("/**").excludePathPatterns("/assets/**")
-				.excludePathPatterns("/user/auth").excludePathPatterns("/user/logout");
+		registry.addInterceptor(authInterceptor())
+				.addPathPatterns("/**")
+				.excludePathPatterns("/assets/**")
+				.excludePathPatterns("/user/auth")
+				.excludePathPatterns("/user/logout");
 	}
 
 	@Override
@@ -79,6 +85,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addResourceHandler(env.getProperty("fileupload.resourceMapping"))
 				.addResourceLocations("file:" + env.getProperty("fileupload.uploadLocation"));
 
-		registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/statics/");
+		registry.addResourceHandler("/assets/**")
+				.addResourceLocations("classpath:/statics/");
 	}
 }
