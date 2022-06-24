@@ -1,42 +1,4 @@
-# active spring boot profile
-spring:
-   profiles:
-      active: production
-
-
----
-spring:
-   config:
-      activate:
-         on-profile: development
-   # datasource
-   datasource:
-      driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mysql://192.168.10.7:3306/webdb?charset=utf8
-      username: webdb
-      password: webdb
-      hikari:
-         minimum-idle: 10
-         maximum-pool-size: 20
-
----
-spring:
-   config:
-      activate:
-         on-profile: production
-   # datasource
-   datasource:
-      driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mysql://192.168.10.37:3306/webdb?charset=utf8
-      username: webdb
-      password: webdb
-      hikari:
-         minimum-idle: 10
-         maximum-pool-size: 20
-
----
-
-# spring common configuration
+# spring configuration
 spring:
    application:
       name: mysite
@@ -54,8 +16,9 @@ spring:
          suffix: .jsp
    web:
       resources:
-         static-locations: classpath:/statics/, file:/mysite-uploads/
-   # message resource(Internationalization, i18n)
+         static-locations: classpath:/static/, file:/mysite-uploads/
+
+   # message resource(i18n)
    messages:
       always-message-format: true
       basename: messages/messages_ko
@@ -70,11 +33,21 @@ spring:
    aop:
       auto: true
       proxy-target-class: true
-         
+   # datasource
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mysql://192.168.10.37:3306/webdb?characterEncoding=utf8
+      username: webdb
+      password: webdb
+      hikari:
+        minimum-idle: 10
+        maximum-pool-size: 20
+
+
 # mybatis configuration
 mybatis:
    config-location: classpath:mybatis/configuration.xml
-   
+
 
 # server configuration
 server:
@@ -84,21 +57,24 @@ server:
       encoding:
          charset: utf-8
          enabled: true
-         
+
+
 # logging configuration
 logging:
    pattern:
       file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
    logback:
       rollingpolicy:
-         file-name:-pattern: "/${spring.application.name }-logs/exception.%d{yyyy-MM-dd}.%i.log.zip"
+         file-name-pattern: "/${spring.application.name}-logs/exception.%d{yyyy-MM-dd}.%i.log.zip"
          max-file-size: 200MB
-         max-history: 10
-      file:
-         name: /${spring.application.name }-logs/exception.log
+         max-histroty: 10
+   file:
+      name: /${spring.application.name}-logs/exception.log      	
    level:
       root: INFO
       com:
          douzone:
             mysite:
-               exception: ERROR
+               exception: ERROR   
+   
+   
