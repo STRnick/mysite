@@ -99,10 +99,9 @@ $(function(){
 				}
 				
 				if(response.data) { // exists!
-					alert("존재하는 이메일입니다. 다른 이메일을 사용하세요.");
-					$("#email")
-						.val('')
-						.focus();
+					messageBox("회원가입", "존재하는 이메일입니다. 다른 이메일을 사용하세요.", function(){
+						$("#email").val('').focus();
+					});
 					return;
 				}
 				
