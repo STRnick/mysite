@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.douzone.mysite.repository.GuestbookRepository;
 import com.douzone.mysite.service.GuestbookService;
 import com.douzone.mysite.vo.GuestbookVo;
 
@@ -46,6 +45,11 @@ public class GuestbookController {
 	public String add(GuestbookVo vo) {
 		guestbookService.addMessage(vo);
 		return "redirect:/guestbook";
+	}
+	
+	@RequestMapping("/spa")
+	public String spaLanding() {
+		return "guestbook/index-spa";
 	}
 	
 //	@ExceptionHandler(Exception.class)
